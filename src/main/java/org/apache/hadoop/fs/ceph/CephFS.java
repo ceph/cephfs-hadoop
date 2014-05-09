@@ -31,6 +31,7 @@ import org.apache.hadoop.conf.Configuration;
 
 import com.ceph.fs.CephStat;
 import com.ceph.fs.CephPoolException;
+import com.ceph.fs.CephStatVFS;
 import com.ceph.crush.Bucket;
 import com.ceph.fs.CephFileExtent;
 
@@ -43,6 +44,7 @@ abstract class CephFS {
       int stripe_count, int object_size, String data_pool) throws IOException;
   abstract void fstat(int fd, CephStat stat) throws IOException;
   abstract void lstat(Path path, CephStat stat) throws IOException;
+  abstract void statfs(Path path, CephStatVFS stat) throws IOException;
   abstract void unlink(Path path) throws IOException;
   abstract void rmdir(Path path) throws IOException;
   abstract String[] listdir(Path path) throws IOException;
