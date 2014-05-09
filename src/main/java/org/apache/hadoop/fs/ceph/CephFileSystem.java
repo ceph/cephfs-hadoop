@@ -47,11 +47,13 @@ import org.apache.hadoop.fs.FileAlreadyExistsException;
 import org.apache.hadoop.util.Progressable;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.net.DNS;
+import org.apache.hadoop.fs.FsStatus;
 
 import com.ceph.fs.CephFileAlreadyExistsException;
 import com.ceph.fs.CephNotDirectoryException;
 import com.ceph.fs.CephMount;
 import com.ceph.fs.CephStat;
+import com.ceph.fs.CephStatVFS;
 import com.ceph.crush.Bucket;
 import com.ceph.fs.CephFileExtent;
 
@@ -626,5 +628,16 @@ public class CephFileSystem extends FileSystem {
         CephConfigKeys.CEPH_OBJECT_SIZE_KEY,
         CephConfigKeys.CEPH_OBJECT_SIZE_DEFAULT);
   }
+  
+  @Override
+  public FsStatus getStatus(Path p) throws IOException {
+	  CephStatVFS stat = new CephStatVFS();
+	  ceph.statfs(p, stat);
 
-}
+	  FsStatus status = new FsStatus(stat.bsize * stat.blocks, 
+			  	stat.bsize * (stat.blocks - stat.bavail),
+			  	stat.bsize * stat.bavail);
+	  return status;
+  }
+
+  }
