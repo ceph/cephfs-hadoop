@@ -10,16 +10,34 @@
     <url>http://www.ceph.com</url>
 
     <dependencies>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ceph.fs</groupId>
-            <artifactId>cephfs</artifactId>
-            <version>0.80</version>
-        </dependency>
+      <dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.9</version>
+	<scope>test</scope>
+      </dependency>
+      <dependency>
+	<groupId>org.apache.hadoop</groupId>
+	<artifactId>hadoop-common</artifactId>
+	<version>2.3.0</version>
+      </dependency>
+      <dependency>
+	<groupId>org.apache.hadoop</groupId>
+	<artifactId>hadoop-common-test</artifactId>
+	<version>0.22.0</version>
+	<scope>test</scope>
+      </dependency>
+      <dependency>
+	<groupId>org.apache.hadoop</groupId>
+	<artifactId>hadoop-test</artifactId>
+	<version>1.0.0</version>
+	<scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.ceph.fs</groupId>
+        <artifactId>cephfs</artifactId>
+        <version>0.80</version>
+      </dependency>
     </dependencies>
 
     <build>
