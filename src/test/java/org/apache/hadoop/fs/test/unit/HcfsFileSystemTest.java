@@ -77,7 +77,7 @@ public class HcfsFileSystemTest{
     	fs2.create(new Path(encodedFiles,"a%3a"));
     	fs2.create(new Path(encodedFiles,"a%4a"));
     	Assert.assertEquals(5, fs2.listStatus(encodedFiles).length);
-    	fs2.delete(encodedFiles);
+    	fs2.delete(encodedFiles, true);
     }    
     
     @BeforeClass
