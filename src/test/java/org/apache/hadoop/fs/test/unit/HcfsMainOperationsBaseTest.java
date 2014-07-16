@@ -28,7 +28,7 @@ public class HcfsMainOperationsBaseTest extends org.apache.hadoop.fs.FSMainOpera
 
   @After
   public void tearDown() throws Exception {
-	  fSys.delete(getTestRootPath(fSys, "test"),true);
+      fSys.delete(getTestRootPath(fSys, "test"),true);
   }
   
   @Test
@@ -37,24 +37,23 @@ public class HcfsMainOperationsBaseTest extends org.apache.hadoop.fs.FSMainOpera
     Assert.assertFalse(exists(fSys, testDir));
     fSys.mkdirs(testDir);
     Assert.assertTrue(exists(fSys, testDir));
-    
+
     createFile(getTestRootPath(fSys, "test/hadoop/file"));
     
     Path testSubDir = getTestRootPath(fSys, "test/hadoop/file/subdir");
-    
+
     try{
     	Assert.assertFalse(fSys.mkdirs(testSubDir));
-    }catch(FileAlreadyExistsException ex){
+    }catch(IOException ex){
     	// catch exception as expected.
     }
-    
     Assert.assertFalse(exists(fSys, testSubDir));
     
     Path testDeepSubDir = getTestRootPath(fSys, "test/hadoop/file/deep/sub/dir");
     Assert.assertFalse(exists(fSys, testSubDir));
     try{
     	Assert.assertFalse(fSys.mkdirs(testDeepSubDir));
-    }catch(FileAlreadyExistsException ex){
+    }catch(IOException ex){
     	// catch exception as expected.
     }
     Assert.assertFalse(exists(fSys, testDeepSubDir));
@@ -80,6 +79,7 @@ public class HcfsMainOperationsBaseTest extends org.apache.hadoop.fs.FSMainOpera
       // Assert.fail("Should throw FileNotFoundException");
     } catch (FileNotFoundException fnfe) {
       // expected
+    } catch (NullPointerException ne) {
     }
   }
   
