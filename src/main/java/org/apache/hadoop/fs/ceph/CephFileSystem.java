@@ -199,6 +199,19 @@ public class CephFileSystem extends FileSystem {
   }
 
   /**
+   * Create a directory and any nonexistent parents. Any portion
+   * of the directory tree can exist without error. 
+   * Apply umask from conf
+   * @param f The directory path to create
+   * @return true if successful, false otherwise
+   * @throws IOException if the path is a child of a file.
+   */
+  @Override
+  public boolean mkdirs(Path f) throws IOException {
+    return mkdirs(f, FsPermission.getDirDefault().applyUMask(FsPermission.getUMask(getConf())));
+  }
+
+  /**
    * Get stat information on a file. This does not fill owner or group, as
    * Ceph's support for these is a bit different than HDFS'.
    * @param path The path to stat.
