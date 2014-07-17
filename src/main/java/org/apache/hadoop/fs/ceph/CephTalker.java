@@ -50,6 +50,9 @@ class CephTalker extends CephFS {
   }
 
   private String pathString(Path path) {
+		if (null == path) {
+			return "/";
+		}
     return path.toUri().getPath();
   }
 
