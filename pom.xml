@@ -2,7 +2,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.apache.hadoop.fs.ceph</groupId>
+    <groupId>com.ceph.fs</groupId>
     <artifactId>cephfs-hadoop</artifactId>
     <packaging>jar</packaging>
     <version>0.80</version>
