@@ -5,7 +5,7 @@
     <groupId>com.ceph.fs</groupId>
     <artifactId>cephfs-hadoop</artifactId>
     <packaging>jar</packaging>
-    <version>0.80</version>
+    <version>0.80.1</version>
     <name>cephfs-hadoop</name>
     <url>http://www.ceph.com</url>
 
@@ -36,7 +36,9 @@
       <dependency>
         <groupId>com.ceph.fs</groupId>
         <artifactId>cephfs</artifactId>
-        <version>0.80</version>
+        <version>0.80.1</version>
+	<scope>system</scope>
+	<systemPath>${project.basedir}/src/main/resources/libcephfs.jar</systemPath>
       </dependency>
     </dependencies>
 
