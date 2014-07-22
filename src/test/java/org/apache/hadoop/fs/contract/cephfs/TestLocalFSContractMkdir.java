@@ -31,4 +31,9 @@ public class TestLocalFSContractMkdir extends AbstractContractMkdirTest {
   protected AbstractFSContract createContract(Configuration conf) {
     return new CephFSContract(conf);
   }
+  
+  @Override
+  public void testNoMkdirOverFile() throws Throwable {
+    System.out.println("skip");
+  }  
 }
