@@ -1,7 +1,17 @@
 CephFS Hadoop Plugin!
 =====================
 
-## Vagrant to develop ## 
+## In a hurry ? ## 
+
+- Install virtualbox and vagrant.
+- Make sure they are working correctly.
+
+Then just run:
+
+- cd ./resources/vagrant
+- vagrant up
+
+## Wow ! How did you do that? Vagrant ## 
 
 This repository contains the source code for the Hadoop FileSystem (HCFS) implementation on  Ceph.
 
@@ -16,7 +26,7 @@ The vagrant recipe
  - installs maven
  - creates a shared directory for development (/ceph-hadoop)
  - creates a shared directory for vagrant setup (/vagrant) 
- - finally runs the entire build with unit tests.
+ - finally runs the entire build, creates the jar, and runs unit tests.
 
 ## Learning the details ##
 
@@ -25,6 +35,4 @@ The java steps are summarized by the maven download and `mvn clean package` step
 
 ## Publishing , deployment , and continuous integration ##
 
-This is all TBD.  For now, we manually publish this jar to maven central, see pom.xml for details.
-
- 
+This is all TBD.  For now, we manually publish this jar to maven central, see pom.xml for details. 
