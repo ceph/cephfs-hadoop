@@ -20,7 +20,6 @@
 
 package org.apache.hadoop.fs.test.unit;
 
-import static org.apache.hadoop.fs.FileSystemTestHelper.getTestRootPath;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -33,6 +32,7 @@ import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.contract.AbstractBondedFSContract;
 import org.apache.hadoop.fs.permission.FsAction;
 import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.fs.test.connector.HcfsTestConnectorFactory;
@@ -62,11 +62,6 @@ public class HcfsUmaskTest{
         fs.close();
     }
 
-    @After
-    public void tearDown() throws Exception {
-        fs.delete(getTestRootPath(fs, "test"),true);
-    }
-    
     @org.junit.Test
     public void testMkdirsWithUmask() throws Exception {
         Configuration conf = fs.getConf();

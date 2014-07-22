@@ -21,13 +21,11 @@
 package org.apache.hadoop.fs.ceph;
 
 
-import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
 import java.net.InetAddress;
-import java.util.EnumSet;
-import java.lang.Math;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,25 +35,21 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.FSInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileAlreadyExistsException;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.FileUtil;
+import org.apache.hadoop.fs.FsStatus;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
-import org.apache.hadoop.fs.FileAlreadyExistsException;
 import org.apache.hadoop.util.Progressable;
-import org.apache.hadoop.fs.FileStatus;
-import org.apache.hadoop.net.DNS;
-import org.apache.hadoop.fs.FsStatus;
 
+import com.ceph.crush.Bucket;
 import com.ceph.fs.CephFileAlreadyExistsException;
-import com.ceph.fs.CephNotDirectoryException;
+import com.ceph.fs.CephFileExtent;
 import com.ceph.fs.CephMount;
 import com.ceph.fs.CephStat;
 import com.ceph.fs.CephStatVFS;
-import com.ceph.crush.Bucket;
-import com.ceph.fs.CephFileExtent;
 
 
 /**
@@ -208,7 +202,7 @@ public class CephFileSystem extends FileSystem {
    */
   @Override
   public boolean mkdirs(Path f) throws IOException {
-    return mkdirs(f, FsPermission.getDirDefault().applyUMask(FsPermission.getUMask(getConf())));
+    return mkdirs(f, FsPermission.getDefault().applyUMask(FsPermission.getUMask(getConf())));
   }
 
   /**
@@ -641,7 +635,7 @@ public class CephFileSystem extends FileSystem {
         CephConfigKeys.CEPH_OBJECT_SIZE_KEY,
         CephConfigKeys.CEPH_OBJECT_SIZE_DEFAULT);
   }
-  
+  /**
   @Override
   public FsStatus getStatus(Path p) throws IOException {
 	  CephStatVFS stat = new CephStatVFS();
@@ -652,5 +646,6 @@ public class CephFileSystem extends FileSystem {
 			  	stat.bsize * stat.bavail);
 	  return status;
   }
-
+   */
+   
   }

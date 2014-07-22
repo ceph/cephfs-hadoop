@@ -26,7 +26,6 @@
 
 package org.apache.hadoop.fs.test.unit;
 
-import static org.apache.hadoop.fs.FileSystemTestHelper.getTestRootPath;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -91,10 +90,6 @@ public class HcfsFileSystemTest{
         fs.close();
     }
 
-    @After
-    public void tearDown() throws Exception {
-  	  fs.delete(getTestRootPath(fs, "test"),true);
-    }
     
     @org.junit.Test
     public void testTolerantMkdirs() throws Exception{

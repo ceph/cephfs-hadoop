@@ -27,7 +27,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSInputStream;
-
+import com.ceph.fs.*;
+import  org.apache.hadoop.fs.ceph.CephFS;
 import com.ceph.fs.CephMount;
 
 /**
@@ -42,9 +43,8 @@ public class CephInputStream extends FSInputStream {
   private int fileHandle;
 
   private long fileLength;
-
+  
   private CephFS ceph;
-
   private byte[] buffer;
   private int bufPos = 0;
   private int bufValid = 0;
