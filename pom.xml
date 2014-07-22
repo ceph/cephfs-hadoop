@@ -28,6 +28,12 @@
 	<organization>Red Hat</organization>
 	<organizationUrl>http://www.redhat.com</organizationUrl>
       </developer>
+      <developer>
+	<name>Jay Vyas</name>
+	<email>jvyas@redhat.com</email>
+	<organization>Red Hat</organization>
+	<organizationUrl>http://www.redhat.com</organizationUrl>
+      </developer>
     </developers>
     <scm>
       <connection>scm:git:git@github.com:ceph/cephfs-hadoop.git</connection>
@@ -51,30 +57,32 @@
       </dependency>
       
       <!--  
-      		Since HADOOP-9361 just came out, we
-      		will use frozen jars until hadoop-2.4.2 comes out.
-      		Then we can get rid of this custom logic.
-      		Also we will be able to remove the custom logic
-      		in vagrant dev-setup.sh scripts
-      -->
+      	 Since HADOOP-9361 just came out, we
+      	 will use frozen jars until hadoop-2.4.2 comes out.
+      	 Then we can get rid of this custom logic.
+      	 Also we will be able to remove the custom logic
+      	 in vagrant dev-setup.sh scripts
+	-->
       <dependency>
        	<groupId>com.rhbd.hcfs</groupId>
         <artifactId>hadoop-common-latest-tests</artifactId>
         <version>0.1</version>
- 		<!-- may need to add scope=test here -->
+	<scope>system</scope>
+	<systemPath>${project.basedir}/src/test/resources/hadoop-common-3.0.0-SNAPSHOT-tests.jar</systemPath>
       </dependency>
       <dependency>
        	<groupId>com.rhbd.hcfs</groupId>
         <artifactId>hadoop-common-latest</artifactId>
         <version>0.1</version>
- 		<!-- may need to add scope=test here -->
+	<scope>system</scope>
+	<systemPath>${project.basedir}/src/test/resources/hadoop-common-3.0.0-SNAPSHOT.jar</systemPath>
       </dependency>      
       
       
       <dependency>
-		<groupId>org.apache.hadoop</groupId>
-		<artifactId>hadoop-common</artifactId>
-		<version>2.4.0</version>
+	<groupId>org.apache.hadoop</groupId>
+	<artifactId>hadoop-common</artifactId>
+	<version>2.4.0</version>
       </dependency>
     
       <dependency>
