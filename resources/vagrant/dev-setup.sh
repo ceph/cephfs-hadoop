@@ -5,7 +5,6 @@ ln -s /opt/apache-maven-3.0.5/bin/mvn /usr/bin/mvn
 echo "make sure to export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64/"
 
 echo "Now building ceph-hadoop !!!!!!!!!!!!!"
-read x
 cd /ceph-hadoop/
 
 ### Use maven to install a custom build version of hadoop with HADOOP-9361 tests. ###
