@@ -26,6 +26,7 @@ The vagrant recipe
  - installs maven
  - creates a shared directory for development (/ceph-hadoop)
  - creates a shared directory for vagrant setup (/vagrant) 
+ - installs custom HCFS jars for HADOOP-9361
  - finally runs the entire build, creates the jar, and runs unit tests.
 
 ## Learning the details ##
