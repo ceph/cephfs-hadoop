@@ -21,13 +21,11 @@
 package org.apache.hadoop.fs.ceph;
 
 
-import java.io.IOException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
 import java.net.InetAddress;
-import java.util.EnumSet;
-import java.lang.Math;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,25 +35,21 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.FSDataInputStream;
-import org.apache.hadoop.fs.FSInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileAlreadyExistsException;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.FileUtil;
+import org.apache.hadoop.fs.FsStatus;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
-import org.apache.hadoop.fs.FileAlreadyExistsException;
 import org.apache.hadoop.util.Progressable;
-import org.apache.hadoop.fs.FileStatus;
-import org.apache.hadoop.net.DNS;
-import org.apache.hadoop.fs.FsStatus;
 
+import com.ceph.crush.Bucket;
 import com.ceph.fs.CephFileAlreadyExistsException;
-import com.ceph.fs.CephNotDirectoryException;
+import com.ceph.fs.CephFileExtent;
 import com.ceph.fs.CephMount;
 import com.ceph.fs.CephStat;
 import com.ceph.fs.CephStatVFS;
-import com.ceph.crush.Bucket;
-import com.ceph.fs.CephFileExtent;
 
 
 /**
@@ -92,7 +86,6 @@ public class CephFileSystem extends FileSystem {
     return uri;
   }
 
-  /** {@inheritDoc} */
   @Override
   public void initialize(URI uri, Configuration conf) throws IOException {
     super.initialize(uri, conf);
@@ -208,7 +201,7 @@ public class CephFileSystem extends FileSystem {
    */
   @Override
   public boolean mkdirs(Path f) throws IOException {
-    return mkdirs(f, FsPermission.getDirDefault().applyUMask(FsPermission.getUMask(getConf())));
+    return mkdirs(f, FsPermission.getDefault().applyUMask(FsPermission.getUMask(getConf())));
   }
 
   /**
@@ -256,14 +249,12 @@ public class CephFileSystem extends FileSystem {
     return null;
   }
 
-  /** {@inheritDocs} */
   @Override
   public void setPermission(Path path, FsPermission permission) throws IOException {
     path = makeAbsolute(path);
     ceph.chmod(path, permission.toShort());
   }
 
-  /** {@inheritDocs} */
   @Override
   public void setTimes(Path path, long mtime, long atime) throws IOException {
     path = makeAbsolute(path);
@@ -464,8 +455,8 @@ public class CephFileSystem extends FileSystem {
   * Opens an FSDataOutputStream at the indicated Path with write-progress
   * reporting. Same as create(), except fails if parent directory doesn't
   * already exist.
-  * @param f the file name to open
-  * @param permission
+  * @param path the file name to open
+  * @param permission permission to open
   * @param overwrite if a file with this name already exists, then if true,
   * the file will be overwritten, and if false an error will be thrown.
   * @param bufferSize the size of the buffer to be used.
@@ -595,7 +586,6 @@ public class CephFileSystem extends FileSystem {
 		return delete(path, false);
 	}
 
-  /** {@inheritDoc} */
   public boolean delete(Path path, boolean recursive) throws IOException {
     path = makeAbsolute(path);
 
@@ -641,7 +631,7 @@ public class CephFileSystem extends FileSystem {
         CephConfigKeys.CEPH_OBJECT_SIZE_KEY,
         CephConfigKeys.CEPH_OBJECT_SIZE_DEFAULT);
   }
-  
+
   @Override
   public FsStatus getStatus(Path p) throws IOException {
 	  CephStatVFS stat = new CephStatVFS();
@@ -653,4 +643,5 @@ public class CephFileSystem extends FileSystem {
 	  return status;
   }
 
+   
   }
