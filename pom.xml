@@ -5,7 +5,7 @@
     <groupId>com.ceph.fs</groupId>
     <artifactId>cephfs-hadoop</artifactId>
     <packaging>jar</packaging>
-    <version>0.80.1</version>
+    <version>0.80.4</version>
     <name>cephfs-hadoop</name>
     <url>http://www.ceph.com</url>
     <description>CephFS for Hadoop.</description>
