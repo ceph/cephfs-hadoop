@@ -92,7 +92,6 @@ public class CephFileSystem extends FileSystem {
     return uri;
   }
 
-  /** {@inheritDoc} */
   @Override
   public void initialize(URI uri, Configuration conf) throws IOException {
     super.initialize(uri, conf);
@@ -256,14 +255,12 @@ public class CephFileSystem extends FileSystem {
     return null;
   }
 
-  /** {@inheritDocs} */
   @Override
   public void setPermission(Path path, FsPermission permission) throws IOException {
     path = makeAbsolute(path);
     ceph.chmod(path, permission.toShort());
   }
 
-  /** {@inheritDocs} */
   @Override
   public void setTimes(Path path, long mtime, long atime) throws IOException {
     path = makeAbsolute(path);
@@ -464,7 +461,7 @@ public class CephFileSystem extends FileSystem {
   * Opens an FSDataOutputStream at the indicated Path with write-progress
   * reporting. Same as create(), except fails if parent directory doesn't
   * already exist.
-  * @param f the file name to open
+  * @param path the file name to open
   * @param permission
   * @param overwrite if a file with this name already exists, then if true,
   * the file will be overwritten, and if false an error will be thrown.
@@ -595,7 +592,6 @@ public class CephFileSystem extends FileSystem {
 		return delete(path, false);
 	}
 
-  /** {@inheritDoc} */
   public boolean delete(Path path, boolean recursive) throws IOException {
     path = makeAbsolute(path);
 
