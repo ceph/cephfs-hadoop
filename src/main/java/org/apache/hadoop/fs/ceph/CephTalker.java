@@ -254,7 +254,8 @@ class CephTalker extends CephFS {
   }
 
   void shutdown() throws IOException {
-    mount.unmount();
+    if (null != mount)
+      mount.unmount();
     mount = null;
   }
 
