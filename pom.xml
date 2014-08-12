@@ -90,7 +90,7 @@
         <artifactId>cephfs</artifactId>
         <version>0.80.1</version>
 	<scope>system</scope>
-	<systemPath>${project.basedir}/src/main/resources/libcephfs.jar</systemPath>
+	<systemPath>/usr/share/java/libcephfs.jar</systemPath>
       </dependency>
     </dependencies>
 
