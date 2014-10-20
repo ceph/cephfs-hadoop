@@ -178,6 +178,7 @@ public class CephOutputStream extends OutputStream {
   public synchronized void flush() throws IOException {
     if (!closed) {
       if (bufUsed == 0) {
+        ceph.fsync(fileHandle);
         return;
       }
       int result = ceph.write(fileHandle, buffer, bufUsed, -1);
@@ -193,6 +194,9 @@ public class CephOutputStream extends OutputStream {
             + fileHandle + "was incomplete:  only " + result + " of " + bufUsed
             + " bytes were written.");
       }
+
+      ceph.fsync(fileHandle);
+
       bufUsed = 0;
       return;
     }

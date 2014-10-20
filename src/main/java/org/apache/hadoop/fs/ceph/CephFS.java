@@ -66,4 +66,5 @@ abstract class CephFS {
   abstract InetAddress get_osd_address(int osd) throws IOException;
   abstract Bucket[] get_osd_crush_location(int osd) throws IOException;
   abstract CephFileExtent get_file_extent(int fd, long offset) throws IOException;
+  abstract void fsync(int fd) throws IOException;
 }
