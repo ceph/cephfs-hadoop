@@ -65,7 +65,7 @@ public class CephInputStream extends FSInputStream {
     fileHandle = fh;
     closed = false;
     ceph = cephfs;
-    buffer = new byte[bufferSize];
+    buffer = new byte[1<<21];
     LOG.debug(
         "CephInputStream constructor: initializing stream with fh " + fh
         + " and file length " + flength);

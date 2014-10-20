@@ -36,6 +36,12 @@ import com.ceph.fs.CephMount;
  * <p>
  * An {@link OutputStream} for a CephFileSystem and corresponding
  * Ceph instance.
+ *
+ * TODO:
+ *  - When libcephfs-jni supports ByteBuffer interface we can get rid of the
+ *  use of the buffer here to reduce memory copies and just use buffers in
+ *  libcephfs. Currently it might be useful to reduce JNI crossings, but not
+ *  much more.
  */
 public class CephOutputStream extends OutputStream {
   private static final Log LOG = LogFactory.getLog(CephOutputStream.class);
@@ -58,11 +64,11 @@ public class CephOutputStream extends OutputStream {
     ceph = cephfs;
     fileHandle = fh;
     closed = false;
-    buffer = new byte[bufferSize];
+    buffer = new byte[1<<21];
   }
 
-  /** Ceph likes things to be closed before it shuts down,
-   *so closing the IOStream stuff voluntarily is good
+  /**
+   * Close the Ceph file handle if close() wasn't explicitly called.
    */
   protected void finalize() throws Throwable {
     try {
@@ -75,141 +81,93 @@ public class CephOutputStream extends OutputStream {
   }
 
   /**
+   * Ensure that the stream is opened.
+   */
+  private synchronized void checkOpen() throws IOException {
+    if (closed)
+      throw new IOException("operation on closed stream (fd=" + fileHandle + ")");
+  }
+
+  /**
    * Get the current position in the file.
    * @return The file offset in bytes.
    */
-  public long getPos() throws IOException {
+  public synchronized long getPos() throws IOException {
+    checkOpen();
     return ceph.lseek(fileHandle, 0, CephMount.SEEK_CUR);
   }
 
-  /**
-   * Write a byte.
-   * @param b The byte to write.
-   * @throws IOException If you have closed the CephOutputStream or the
-   * write fails.
-   */
   @Override
   public synchronized void write(int b) throws IOException {
-    LOG.trace(
-        "CephOutputStream.write: writing a single byte to fd " + fileHandle);
-
-    if (closed) {
-      throw new IOException(
-          "CephOutputStream.write: cannot write " + "a byte to fd " + fileHandle
-          + ": stream closed");
-    }
-    // Stick the byte in a buffer and write it
     byte buf[] = new byte[1];
-
     buf[0] = (byte) b;    
     write(buf, 0, 1);
-    return;
   }
 
-  /**
-   * Write a byte buffer into the Ceph file.
-   * @param buf the byte array to write from
-   * @param off the position in the file to start writing at.
-   * @param len The number of bytes to actually write.
-   * @throws IOException if you have closed the CephOutputStream, or
-   * if buf is null or off + len > buf.length, or
-   * if the write fails due to a Ceph error.
-   */
   @Override
   public synchronized void write(byte buf[], int off, int len) throws IOException {
-    LOG.trace(
-        "CephOutputStream.write: writing " + len + " bytes to fd " + fileHandle);
-    // make sure stream is open
-    if (closed) {
-      throw new IOException(
-          "CephOutputStream.write: cannot write " + len + "bytes to fd "
-          + fileHandle + ": stream closed");
-    }
-		
-    int result;
-    int write;
+    checkOpen();
 
     while (len > 0) {
-      write = Math.min(len, buffer.length - bufUsed);
-      try {
-        System.arraycopy(buf, off, buffer, bufUsed, write);
-      } catch (IndexOutOfBoundsException ie) {
-        throw new IOException(
-            "CephOutputStream.write: Indices out of bounds: "
-                + "write length is " + len + ", buffer offset is " + off
-                + ", and buffer size is " + buf.length);
-      } catch (ArrayStoreException ae) {
-        throw new IOException(
-            "Uh-oh, CephOutputStream failed to do an array"
-                + " copy due to type mismatch...");
-      } catch (NullPointerException ne) {
-        throw new IOException(
-            "CephOutputStream.write: cannot write " + len + "bytes to fd "
-            + fileHandle + ": buffer is null");
-      }
-      bufUsed += write;
-      len -= write;
-      off += write;
-      if (bufUsed == buffer.length) {
-        result = ceph.write(fileHandle, buffer, bufUsed, -1);
-        if (result < 0) {
-          throw new IOException(
-              "CephOutputStream.write: Buffered write of " + bufUsed
-              + " bytes failed!");
-        }
-        if (result != bufUsed) {
-          throw new IOException(
-              "CephOutputStream.write: Wrote only " + result + " bytes of "
-              + bufUsed + " in buffer! Data may be lost or written"
-              + " twice to Ceph!");
-        }
-        bufUsed = 0;
-      }
+      int remaining = Math.min(len, buffer.length - bufUsed);
+      System.arraycopy(buf, off, buffer, bufUsed, remaining);
 
+      bufUsed += remaining;
+      off += remaining;
+      len -= remaining;
+
+      if (buffer.length == bufUsed)
+        flushBuffer();
     }
-    return; 
   }
-   
-  /**
-   * Flush the buffered data.
-   * @throws IOException if you've closed the stream or the write fails.
+
+  /*
+   * Moves data from the buffer into libcephfs.
    */
-  @Override
-  public synchronized void flush() throws IOException {
-    if (!closed) {
-      if (bufUsed == 0) {
+  private synchronized void flushBuffer() throws IOException {
+    if (bufUsed == 0)
+      return;
+
+    while (bufUsed > 0) {
+      int ret = ceph.write(fileHandle, buffer, bufUsed, -1);
+      if (ret < 0)
+        throw new IOException("ceph.write: ret=" + ret);
+
+      if (ret == bufUsed) {
+        bufUsed = 0;
         return;
       }
-      int result = ceph.write(fileHandle, buffer, bufUsed, -1);
 
-      if (result < 0) {
-        throw new IOException(
-            "CephOutputStream.write: Write of " + bufUsed + "bytes to fd "
-            + fileHandle + " failed");
-      }
-      if (result != bufUsed) {
-        throw new IOException(
-            "CephOutputStream.write: Write of " + bufUsed + "bytes to fd "
-            + fileHandle + "was incomplete:  only " + result + " of " + bufUsed
-            + " bytes were written.");
-      }
-      bufUsed = 0;
-      return;
+      assert(ret > 0);
+      assert(ret < bufUsed);
+
+      /*
+       * TODO: handle a partial write by shifting the remainder of the data in
+       * the buffer back to the beginning and retrying the write. It would
+       * probably be better to use a ByteBuffer 'view' here, and I believe
+       * using a ByteBuffer has some other performance benefits but we'll
+       * likely need to update the libcephfs-jni implementation.
+       */
+      int remaining = bufUsed - ret;
+      System.arraycopy(buffer, ret, buffer, 0, remaining);
+      bufUsed -= ret;
     }
+
+    assert(bufUsed == 0);
+  }
+   
+  @Override
+  public synchronized void flush() throws IOException {
+    checkOpen();
+    flushBuffer(); // buffer -> libcephfs
+    ceph.fsync(fileHandle); // libcephfs -> cluster
   }
   
-  /**
-   * Close the CephOutputStream.
-   * @throws IOException if Ceph somehow returns an error. In current code it can't.
-   */
   @Override
   public synchronized void close() throws IOException {
-    LOG.trace("CephOutputStream.close:enter");
-    if (!closed) {
-      flush();
-      ceph.close(fileHandle);
-      closed = true;
-      LOG.trace("CephOutputStream.close:exit");
-    }
+    checkOpen();
+    flush();
+    ceph.close(fileHandle);
+    closed = true;
   }
 }

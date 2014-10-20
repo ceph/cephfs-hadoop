@@ -283,6 +283,10 @@ class CephTalker extends CephFS {
     mount.setattr(pathString(path), stat, mask);
   }
 
+  void fsync(int fd) throws IOException {
+    mount.fsync(fd, false);
+  }
+
   long lseek(int fd, long offset, int whence) throws IOException {
     return mount.lseek(fd, offset, whence);
   }
