@@ -75,10 +75,19 @@ public class CephOutputStream extends OutputStream {
   }
 
   /**
+   * Ensure that the stream is opened.
+   */
+  private synchronized void checkOpen(String ctx) throws IOException {
+    if (closed)
+      throw new IOException(ctx + ": operation on closed stream (fd=" + fileHandle + ")");
+  }
+
+  /**
    * Get the current position in the file.
    * @return The file offset in bytes.
    */
-  public long getPos() throws IOException {
+  public synchronized long getPos() throws IOException {
+    checkOpen("getPos");
     return ceph.lseek(fileHandle, 0, CephMount.SEEK_CUR);
   }
 
@@ -93,11 +102,6 @@ public class CephOutputStream extends OutputStream {
     LOG.trace(
         "CephOutputStream.write: writing a single byte to fd " + fileHandle);
 
-    if (closed) {
-      throw new IOException(
-          "CephOutputStream.write: cannot write " + "a byte to fd " + fileHandle
-          + ": stream closed");
-    }
     // Stick the byte in a buffer and write it
     byte buf[] = new byte[1];
 
@@ -119,12 +123,8 @@ public class CephOutputStream extends OutputStream {
   public synchronized void write(byte buf[], int off, int len) throws IOException {
     LOG.trace(
         "CephOutputStream.write: writing " + len + " bytes to fd " + fileHandle);
-    // make sure stream is open
-    if (closed) {
-      throw new IOException(
-          "CephOutputStream.write: cannot write " + len + "bytes to fd "
-          + fileHandle + ": stream closed");
-    }
+
+    checkOpen("write");
 		
     int result;
     int write;
@@ -176,6 +176,8 @@ public class CephOutputStream extends OutputStream {
    */
   @Override
   public synchronized void flush() throws IOException {
+    checkOpen("flush");
+
     if (!closed) {
       if (bufUsed == 0) {
         ceph.fsync(fileHandle);
