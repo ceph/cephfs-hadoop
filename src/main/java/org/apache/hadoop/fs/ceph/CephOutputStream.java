@@ -91,34 +91,13 @@ public class CephOutputStream extends OutputStream {
     return ceph.lseek(fileHandle, 0, CephMount.SEEK_CUR);
   }
 
-  /**
-   * Write a byte.
-   * @param b The byte to write.
-   * @throws IOException If you have closed the CephOutputStream or the
-   * write fails.
-   */
   @Override
   public synchronized void write(int b) throws IOException {
-    LOG.trace(
-        "CephOutputStream.write: writing a single byte to fd " + fileHandle);
-
-    // Stick the byte in a buffer and write it
     byte buf[] = new byte[1];
-
     buf[0] = (byte) b;    
     write(buf, 0, 1);
-    return;
   }
 
-  /**
-   * Write a byte buffer into the Ceph file.
-   * @param buf the byte array to write from
-   * @param off the position in the file to start writing at.
-   * @param len The number of bytes to actually write.
-   * @throws IOException if you have closed the CephOutputStream, or
-   * if buf is null or off + len > buf.length, or
-   * if the write fails due to a Ceph error.
-   */
   @Override
   public synchronized void write(byte buf[], int off, int len) throws IOException {
     LOG.trace(
@@ -170,10 +149,6 @@ public class CephOutputStream extends OutputStream {
     return; 
   }
    
-  /**
-   * Flush the buffered data.
-   * @throws IOException if you've closed the stream or the write fails.
-   */
   @Override
   public synchronized void flush() throws IOException {
     checkOpen("flush");
@@ -204,10 +179,6 @@ public class CephOutputStream extends OutputStream {
     }
   }
   
-  /**
-   * Close the CephOutputStream.
-   * @throws IOException if Ceph somehow returns an error. In current code it can't.
-   */
   @Override
   public synchronized void close() throws IOException {
     LOG.trace("CephOutputStream.close:enter");
