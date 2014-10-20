@@ -64,7 +64,7 @@ public class CephOutputStream extends OutputStream {
     ceph = cephfs;
     fileHandle = fh;
     closed = false;
-    buffer = new byte[bufferSize];
+    buffer = new byte[1<<21];
   }
 
   /**
