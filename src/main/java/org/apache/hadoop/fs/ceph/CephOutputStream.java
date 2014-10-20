@@ -83,9 +83,9 @@ public class CephOutputStream extends OutputStream {
   /**
    * Ensure that the stream is opened.
    */
-  private synchronized void checkOpen(String ctx) throws IOException {
+  private synchronized void checkOpen() throws IOException {
     if (closed)
-      throw new IOException(ctx + ": operation on closed stream (fd=" + fileHandle + ")");
+      throw new IOException("operation on closed stream (fd=" + fileHandle + ")");
   }
 
   /**
@@ -93,7 +93,7 @@ public class CephOutputStream extends OutputStream {
    * @return The file offset in bytes.
    */
   public synchronized long getPos() throws IOException {
-    checkOpen("getPos");
+    checkOpen();
     return ceph.lseek(fileHandle, 0, CephMount.SEEK_CUR);
   }
 
@@ -106,7 +106,7 @@ public class CephOutputStream extends OutputStream {
 
   @Override
   public synchronized void write(byte buf[], int off, int len) throws IOException {
-    checkOpen("write");
+    checkOpen();
 
     while (len > 0) {
       int remaining = Math.min(len, buffer.length - bufUsed);
@@ -158,14 +158,14 @@ public class CephOutputStream extends OutputStream {
    
   @Override
   public synchronized void flush() throws IOException {
-    checkOpen("flush");
+    checkOpen();
     flushBuffer(); // buffer -> libcephfs
     ceph.fsync(fileHandle); // libcephfs -> cluster
   }
   
   @Override
   public synchronized void close() throws IOException {
-    checkOpen("close");
+    checkOpen();
     flush();
     ceph.close(fileHandle);
     closed = true;
