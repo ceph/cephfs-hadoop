@@ -86,11 +86,9 @@
       </dependency>
     
       <dependency>
-        <groupId>com.ceph.fs</groupId>
-        <artifactId>cephfs</artifactId>
-        <version>0.80.1</version>
-	<scope>system</scope>
-	<systemPath>/usr/share/java/libcephfs.jar</systemPath>
+        <groupId>com.ceph</groupId>
+        <artifactId>libcephfs</artifactId>
+        <version>0.80.5</version>
       </dependency>
     </dependencies>
 
