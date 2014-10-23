@@ -401,7 +401,7 @@ public class CephFileSystem extends FileSystem {
     } else {
       Path parent = path.getParent();
       if (parent != null)
-        if (!mkdirs(parent, permission))
+        if (!mkdirs(parent))
           throw new IOException("mkdirs failed for " + parent.toString());
     }
 
