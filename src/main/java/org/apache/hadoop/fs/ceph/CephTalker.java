@@ -268,7 +268,18 @@ class CephTalker extends CephFS {
     mount.lstat(pathString(path), stat);
     int replication = 1;
     if (stat.isFile()) {
-      int fd = mount.open(pathString(path), CephMount.O_RDONLY, 0);
+      int fd;
+      /*
+       * When we stat files we also retrieve the file replication, but the
+       * current libcephfs interface requires we open the file first. Since we
+       * might not have read permissions, we try with write permissions. It
+       * would be better to have a variant that operated on paths.
+       */
+      try {
+        fd = mount.open(pathString(path), CephMount.O_RDONLY, 0);
+      } catch (IOException e) {
+        fd = mount.open(pathString(path), CephMount.O_WRONLY, 0);
+      }
       replication = mount.get_file_replication(fd);
       mount.close(fd);
     }
