@@ -39,7 +39,7 @@ case sensitivity and permission options are determined at run time from OS type
 
   <property>
     <name>fs.contract.test.root-tests-enabled</name>
-    <value>false</value>
+    <value>true</value>
   </property>
 
   <property>
