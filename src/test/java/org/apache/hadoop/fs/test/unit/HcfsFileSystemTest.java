@@ -354,7 +354,7 @@ public class HcfsFileSystemTest{
         Assert.assertTrue(this.fs.getFileStatus(theFile).getPermission().getGroupAction().equals(changeTo.getGroupAction()));
         Assert.assertTrue(this.fs.getFileStatus(theFile).getPermission().getUserAction().equals(changeTo.getUserAction()));
         Assert.assertTrue(this.fs.getFileStatus(theFile).getPermission().getOtherAction().equals(changeTo.getOtherAction()));
-        fs.delete(new Path("mnt"),true);
+        fs.delete(new Path("/mnt"),true);
         
     }
 }
