@@ -23,26 +23,8 @@ import org.apache.hadoop.fs.contract.AbstractContractRenameTest;
 import org.apache.hadoop.fs.contract.AbstractFSContract;
 
 public class TestLocalFSContractRename extends AbstractContractRenameTest {
-
   @Override
   protected AbstractFSContract createContract(Configuration conf) {
     return new CephFSContract(conf);
   }
-
-  @Override
-  public void testRenameFileOverExistingFile() throws Throwable {
-    System.out.println("skip");	  
-  }
-
-  @Override
-  public void testRenameFileNonexistentDir() throws Throwable {
-    System.out.println("skip");	  
-  }
-
-  @Override
-  public void testRenameNonexistentFile() throws Throwable {
-    System.out.println("skip");	  
-  }
-  
- 
 }

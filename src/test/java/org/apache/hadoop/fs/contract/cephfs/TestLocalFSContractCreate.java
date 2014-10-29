@@ -24,61 +24,8 @@ import org.apache.hadoop.fs.contract.AbstractFSContract;
 import org.junit.Test;
 
 public class TestLocalFSContractCreate extends AbstractContractCreateTest {
-
   @Override
   protected AbstractFSContract createContract(Configuration conf) {
-		System.out.println("-");
 	  return new CephFSContract(conf);
   }
-
-@Override
-@Test
-public void testCreateFileOverExistingFileNoOverwrite() throws Throwable {
-	System.out.println("-sdfsdfs");
-
-	super.testCreateFileOverExistingFileNoOverwrite();
-}
-
-@Override
-@Test
-public void testCreateNewFile() throws Throwable {
-	System.out.println("-sdf");
-
-	super.testCreateNewFile();
-}
-
-@Override
-@Test
-public void testCreatedFileIsImmediatelyVisible() throws Throwable {
-	System.out.println("-ddd");
-	// TODO Auto-generated method stub
-	super.testCreatedFileIsImmediatelyVisible();
-}
-
-@Override
-@Test
-public void testOverwriteEmptyDirectory() throws Throwable {
-	System.out.println("-s");
-
-	// TODO Auto-generated method stub
-	//super.testOverwriteEmptyDirectory();
-}
-
-@Override
-@Test
-public void testOverwriteExistingFile() throws Throwable {
-
-	System.out.println("-a");
-// TODO Auto-generated method stub
-	super.testOverwriteExistingFile();
-}
-
-@Override
-@Test
-public void testOverwriteNonEmptyDirectory() throws Throwable {
-	System.out.println("-0");
-	// TODO Auto-generated method stub
-	//super.testOverwriteNonEmptyDirectory();
-}
-
 }

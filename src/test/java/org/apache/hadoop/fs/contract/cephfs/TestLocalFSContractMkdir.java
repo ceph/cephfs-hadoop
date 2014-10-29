@@ -26,14 +26,8 @@ import org.apache.hadoop.fs.contract.AbstractFSContract;
  * Test dir operations on a the local FS.
  */
 public class TestLocalFSContractMkdir extends AbstractContractMkdirTest {
-
   @Override
   protected AbstractFSContract createContract(Configuration conf) {
     return new CephFSContract(conf);
   }
-  
-  @Override
-  public void testNoMkdirOverFile() throws Throwable {
-    System.out.println("skip");
-  }  
 }
