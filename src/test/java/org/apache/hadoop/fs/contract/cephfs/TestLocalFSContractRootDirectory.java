@@ -19,12 +19,22 @@
 package org.apache.hadoop.fs.contract.cephfs;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.contract.AbstractContractSeekTest;
+import org.apache.hadoop.fs.contract.AbstractContractRootDirectoryTest;
 import org.apache.hadoop.fs.contract.AbstractFSContract;
 
-public class TestLocalFSContractSeek extends AbstractContractSeekTest {
+public class TestLocalFSContractRootDirectory extends AbstractContractRootDirectoryTest {
   @Override
   protected AbstractFSContract createContract(Configuration conf) {
     return new CephFSContract(conf);
+  }
+
+  @Override
+  public void testRmEmptyRootDirNonRecursive() throws Throwable {
+    System.out.println("skipped");
+  }
+
+  @Override
+  public void testRmRootRecursive() throws Throwable {
+    System.out.println("skipped");
   }
 }

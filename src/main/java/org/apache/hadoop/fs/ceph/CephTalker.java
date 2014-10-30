@@ -156,7 +156,9 @@ class CephTalker extends CephFS {
   }
 
   /*
-   * Open a file. Allows directories to be opened.
+   * Open a file. Allows directories to be opened. used internally to get the
+   * pool name. Hadoop doesn't allow directories to be opened, and that is
+   * handled below.
    */
   int __open(Path path, int flags, int mode) throws IOException {
     return mount.open(pathString(path), flags, mode);

@@ -116,6 +116,7 @@ public class CephFileSystem extends FileSystem {
   public FSDataInputStream open(Path path, int bufferSize) throws IOException {
     path = makeAbsolute(path);
 
+    // throws filenotfoundexception if path is a directory
     int fd = ceph.open(path, CephMount.O_RDONLY, 0);
 
     /* get file size */
@@ -516,6 +517,8 @@ public class CephFileSystem extends FileSystem {
     try {
       ceph.rename(src, dst);
     } catch (FileNotFoundException e) {
+      throw e;
+    } catch (Exception e) {
       return false;
     }
 

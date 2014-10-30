@@ -112,6 +112,8 @@ public class CephInputStream extends FSInputStream {
    */
   @Override
   public synchronized int available() throws IOException {
+    if (closed)
+      throw new IOException("file is closed");
     return (int) (fileLength - getPos());
   }
 
