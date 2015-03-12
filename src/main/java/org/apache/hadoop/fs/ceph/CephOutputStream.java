@@ -47,7 +47,7 @@ public class CephOutputStream extends OutputStream {
   private static final Log LOG = LogFactory.getLog(CephOutputStream.class);
   private boolean closed;
 
-  private CephFS ceph;
+  private CephFsProto ceph;
 
   private int fileHandle;
 
@@ -59,7 +59,7 @@ public class CephOutputStream extends OutputStream {
    * @param conf The FileSystem configuration.
    * @param fh The Ceph filehandle to connect to.
    */
-  public CephOutputStream(Configuration conf, CephFS cephfs,
+  public CephOutputStream(Configuration conf, CephFsProto cephfs,
       int fh, int bufferSize) {
     ceph = cephfs;
     fileHandle = fh;
