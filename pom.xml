@@ -47,6 +47,10 @@
 	<url>https://oss.sonatype.org/content/repositories/snapshots</url>
       </snapshotRepository>
     </distributionManagement>
+    
+    <properties>
+    	<libcephfs.version>0.80.5</libcephfs.version>
+    </properties>
 
     <dependencies>
       <dependency>
@@ -88,7 +92,7 @@
       <dependency>
         <groupId>com.ceph</groupId>
         <artifactId>libcephfs</artifactId>
-        <version>0.80.5</version>
+        <version>${libcephfs.version}</version>
       </dependency>
     </dependencies>
 
