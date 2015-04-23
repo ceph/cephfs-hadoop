@@ -35,7 +35,7 @@ import com.ceph.fs.CephStatVFS;
 import com.ceph.crush.Bucket;
 import com.ceph.fs.CephFileExtent;
 
-abstract class CephFS {
+abstract class CephFsProto {
 
   abstract void initialize(URI uri, Configuration conf) throws IOException;
   abstract int __open(Path path, int flags, int mode) throws IOException;

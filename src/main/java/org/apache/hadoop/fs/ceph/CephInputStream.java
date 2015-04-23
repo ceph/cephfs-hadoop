@@ -43,7 +43,7 @@ public class CephInputStream extends FSInputStream {
 
   private long fileLength;
 
-  private CephFS ceph;
+  private CephFsProto ceph;
 
   private byte[] buffer;
   private int bufPos = 0;
@@ -57,7 +57,7 @@ public class CephInputStream extends FSInputStream {
    * @param flength The current length of the file. If the length changes
    * you will need to close and re-open it to access the new data.
    */
-  public CephInputStream(Configuration conf, CephFS cephfs,
+  public CephInputStream(Configuration conf, CephFsProto cephfs,
       int fh, long flength, int bufferSize) {
     // Whoever's calling the constructor is responsible for doing the actual ceph_open
     // call and providing the file handle.

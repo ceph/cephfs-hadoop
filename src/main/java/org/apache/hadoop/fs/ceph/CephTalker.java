@@ -40,7 +40,7 @@ import com.ceph.fs.CephPoolException;
 import com.ceph.crush.Bucket;
 import com.ceph.fs.CephFileExtent;
 
-class CephTalker extends CephFS {
+class CephTalker extends CephFsProto {
 
   private CephMount mount;
   private short defaultReplication;
