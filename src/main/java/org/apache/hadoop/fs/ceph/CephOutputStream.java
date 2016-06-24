@@ -52,7 +52,7 @@ public class CephOutputStream extends OutputStream {
   private int fileHandle;
 
   private byte[] buffer;
-  private int bufUsed = 0;
+  private int bufUsed;
 
   /**
    * Construct the CephOutputStream.
