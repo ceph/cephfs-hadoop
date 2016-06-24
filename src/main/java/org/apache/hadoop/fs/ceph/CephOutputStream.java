@@ -99,13 +99,13 @@ public class CephOutputStream extends OutputStream {
 
   @Override
   public synchronized void write(int b) throws IOException {
-    byte buf[] = new byte[1];
+    byte[] buf = new byte[1];
     buf[0] = (byte) b;    
     write(buf, 0, 1);
   }
 
   @Override
-  public synchronized void write(byte buf[], int off, int len) throws IOException {
+  public synchronized void write(byte[] buf, int off, int len) throws IOException {
     checkOpen();
 
     while (len > 0) {
