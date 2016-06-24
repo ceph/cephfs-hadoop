@@ -36,6 +36,9 @@ import com.ceph.fs.CephMount;
  * Ceph instance.
  */
 public class CephInputStream extends FSInputStream {
+  private static final String CEPH_INPUT_STREAM_READ_CANNOT_READ = "CephInputStream.read: cannot read ";
+  private static final String BYTES_FROM_FD = " bytes from fd ";
+
   private static final Log LOG = LogFactory.getLog(CephInputStream.class);
   private boolean closed;
 
@@ -184,18 +187,18 @@ public class CephInputStream extends FSInputStream {
   public synchronized int read(byte buf[], int off, int len)
     throws IOException {
     LOG.trace(
-        "CephInputStream.read: Reading " + len + " bytes from fd " + fileHandle);
+        "CephInputStream.read: Reading " + len + BYTES_FROM_FD + fileHandle);
       
     if (closed) {
       throw new IOException(
-          "CephInputStream.read: cannot read " + len + " bytes from fd "
+          CEPH_INPUT_STREAM_READ_CANNOT_READ + len + BYTES_FROM_FD
           + fileHandle + ": stream closed");
     }
 			
     // ensure we're not past the end of the file
     if (getPos() >= fileLength) {
       LOG.debug(
-          "CephInputStream.read: cannot read " + len + " bytes from fd "
+          CEPH_INPUT_STREAM_READ_CANNOT_READ + len + BYTES_FROM_FD
           + fileHandle + ": current position is " + getPos()
           + " and file length is " + fileLength);
 				
@@ -221,7 +224,7 @@ public class CephInputStream extends FSInputStream {
                 + "copy due to type mismatch...");
       } catch (NullPointerException ne) {
         throw new IOException(
-            "CephInputStream.read: cannot read " + len + "bytes from fd:"
+            CEPH_INPUT_STREAM_READ_CANNOT_READ + len + "bytes from fd:"
             + fileHandle + ": buf is null");
       }
       bufPos += read;
@@ -231,7 +234,7 @@ public class CephInputStream extends FSInputStream {
     } while (len > 0 && fillBuffer());
 
     LOG.trace(
-        "CephInputStream.read: Reading " + initialLen + " bytes from fd "
+        "CephInputStream.read: Reading " + initialLen + BYTES_FROM_FD
         + fileHandle + ": succeeded in reading " + totalRead + " bytes");
     return totalRead;
   }
