@@ -23,18 +23,15 @@ package org.apache.hadoop.fs.ceph;
 import java.io.IOException;
 import java.net.URI;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.net.InetAddress;
 
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.commons.logging.Log;
-import org.apache.commons.lang.StringUtils;
 
 import com.ceph.fs.CephMount;
 import com.ceph.fs.CephStat;
 import com.ceph.fs.CephStatVFS;
-import com.ceph.fs.CephFileAlreadyExistsException;
 import com.ceph.fs.CephNotDirectoryException;
 import com.ceph.fs.CephPoolException;
 import com.ceph.crush.Bucket;
