@@ -97,7 +97,7 @@ public class CephInputStream extends FSInputStream {
       throw new IOException("Failed to fill read buffer! Error code:" + err);
     }
     cephPos += bufValid;
-    return (bufValid != 0);
+    return bufValid != 0;
   }
 
   /*
