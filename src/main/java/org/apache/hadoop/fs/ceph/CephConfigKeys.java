@@ -55,4 +55,7 @@ public class CephConfigKeys extends CommonConfigurationKeys {
 
   public static final String CEPH_MON_ADDR_KEY = "ceph.mon.address";
   public static final String CEPH_MON_ADDR_DEFAULT = null;
+
+  public static final String CEPH_PORT = "ceph.port";
+  public static final int CEPH_PORT_DEFAULT = 6789;
 }
