@@ -652,4 +652,11 @@ public class CephFileSystem extends FileSystem {
 	  return status;
   }
 
+  @Override
+  protected int getDefaultPort() {
+    return getConf().getInt(
+        CephConfigKeys.CEPH_PORT,
+        CephConfigKeys.CEPH_PORT_DEFAULT);
+  }
+
   }
