@@ -316,6 +316,10 @@ class CephTalker extends CephFsProto {
     return mount.get_file_pool_name(fd);
   }
 
+  String get_default_data_pool_name() {
+    return mount.get_default_data_pool_name();
+  }
+
   int get_pool_id(String pool_name) throws IOException {
     try {
       return mount.get_pool_id(pool_name);
