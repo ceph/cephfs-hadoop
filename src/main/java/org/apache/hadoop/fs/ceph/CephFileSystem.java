@@ -253,7 +253,7 @@ public class CephFileSystem extends FileSystem {
     if (isFile(path))
       return new FileStatus[] { getFileStatus(path) };
 
-    return null;
+    throw new FileNotFoundException("File " + path + " does not exist.");
   }
 
   @Override
