@@ -79,6 +79,13 @@ public class CephFileSystem extends FileSystem {
   }
 
   /**
+   * Create a new CephFileSystem.
+   */
+  public CephFileSystem(Configuration conf) {
+    setConf(conf);
+  }
+
+  /**
    * Create an absolute path using the working directory.
    */
   private Path makeAbsolute(Path path) {
