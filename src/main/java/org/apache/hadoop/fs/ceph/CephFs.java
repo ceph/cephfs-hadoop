@@ -24,6 +24,6 @@ public class CephFs extends DelegateToFileSystem {
    */
   CephFs(final URI theUri, final Configuration conf) throws IOException,
     URISyntaxException {
-    super(theUri, new CephFileSystem(), conf, "ceph", true);
+    super(theUri, new CephFileSystem(conf), conf, "ceph", true);
   }
 }
