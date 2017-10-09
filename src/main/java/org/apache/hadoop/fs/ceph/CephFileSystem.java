@@ -614,7 +614,7 @@ public class CephFileSystem extends FileSystem {
     }
 
     /* we're done if its a file */
-    if (!status.isDir()) {
+    if (status.isFile()) {
       ceph.unlink(path);
       return true;
     }
