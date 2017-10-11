@@ -248,6 +248,9 @@ public class CephFileSystem extends FileSystem {
   public FileStatus[] listStatus(Path path) throws IOException {
     path = makeAbsolute(path);
 
+    if (isFile(path))
+      return new FileStatus[] { getFileStatus(path) };
+
     String[] dirlist = ceph.listdir(path);
     if (dirlist != null) {
       FileStatus[] status = new FileStatus[dirlist.length];
@@ -256,11 +259,9 @@ public class CephFileSystem extends FileSystem {
       }
       return status;
     }
-
-    if (isFile(path))
-      return new FileStatus[] { getFileStatus(path) };
-
-    return null;
+    else {
+      throw new FileNotFoundException("File " + path + " does not exist.");
+    }
   }
 
   @Override
