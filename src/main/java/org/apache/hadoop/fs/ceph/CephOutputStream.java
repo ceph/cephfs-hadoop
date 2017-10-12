@@ -138,8 +138,8 @@ public class CephOutputStream extends OutputStream {
         return;
       }
 
-      assert(ret > 0);
-      assert(ret < bufUsed);
+      assert ret > 0;
+      assert ret < bufUsed;
 
       /*
        * TODO: handle a partial write by shifting the remainder of the data in
@@ -153,7 +153,7 @@ public class CephOutputStream extends OutputStream {
       bufUsed -= ret;
     }
 
-    assert(bufUsed == 0);
+    assert bufUsed == 0;
   }
    
   @Override

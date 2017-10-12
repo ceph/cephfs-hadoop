@@ -409,9 +409,8 @@ public class CephFileSystem extends FileSystem {
         throw new FileAlreadyExistsException();
     } else {
       Path parent = path.getParent();
-      if (parent != null)
-        if (!mkdirs(parent))
-          throw new IOException("mkdirs failed for " + parent.toString());
+      if (parent != null && !mkdirs(parent))
+    	  throw new IOException("mkdirs failed for " + parent.toString());
     }
 
     if (progress != null) {
