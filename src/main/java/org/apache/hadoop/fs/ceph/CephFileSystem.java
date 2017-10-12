@@ -328,9 +328,7 @@ public class CephFileSystem extends FileSystem {
      * something bad, so we throw any exceptions. For configured pools we
      * ignore some errors.
      */
-    int fd = ceph.__open(new Path("/"), CephMount.O_RDONLY, 0);
-    String pool_name = ceph.get_file_pool_name(fd);
-    ceph.close(fd);
+    String pool_name = ceph.get_default_data_pool_name();
     int replication = getPoolReplication(pool_name);
     pools.put(new Integer(replication), pool_name);
 
