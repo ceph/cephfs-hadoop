@@ -30,7 +30,6 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
 
 import com.ceph.fs.CephStat;
-import com.ceph.fs.CephPoolException;
 import com.ceph.fs.CephStatVFS;
 import com.ceph.crush.Bucket;
 import com.ceph.fs.CephFileExtent;
