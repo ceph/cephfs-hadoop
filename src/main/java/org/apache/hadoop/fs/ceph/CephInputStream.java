@@ -157,7 +157,7 @@ public class CephInputStream extends FSInputStream {
         "CephInputStream.read: Reading a single byte from fd " + fileHandle
         + " by calling general read function");
 
-    byte result[] = new byte[1];
+    byte[] result = new byte[1];
 
     if (getPos() >= fileLength) {
       return -1;
@@ -181,7 +181,7 @@ public class CephInputStream extends FSInputStream {
    * @throws IOException on bad input.
    */
   @Override
-  public synchronized int read(byte buf[], int off, int len)
+  public synchronized int read(byte[] buf, int off, int len)
     throws IOException {
     LOG.trace(
         "CephInputStream.read: Reading " + len + " bytes from fd " + fileHandle);
