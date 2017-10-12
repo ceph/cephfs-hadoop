@@ -46,9 +46,9 @@ public class CephInputStream extends FSInputStream {
   private CephFsProto ceph;
 
   private byte[] buffer;
-  private int bufPos = 0;
-  private int bufValid = 0;
-  private long cephPos = 0;
+  private int bufPos;
+  private int bufValid;
+  private long cephPos;
 
   /**
    * Create a new CephInputStream.

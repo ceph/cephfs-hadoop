@@ -68,9 +68,9 @@ public class CephFileSystem extends FileSystem {
   private URI uri;
 
   private Path workingDir;
-  private CephFsProto ceph = null;
+  private CephFsProto ceph;
   private static final int CEPH_STRIPE_COUNT = 1;
-  private TreeMap<Integer, String> datapools = null;
+  private TreeMap<Integer, String> datapools;
 
   /**
    * Create a new CephFileSystem.
