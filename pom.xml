@@ -82,6 +82,13 @@
 	<scope>system</scope>
 	<systemPath>${project.basedir}/src/test/resources/hadoop-common-3.0.0-SNAPSHOT.jar</systemPath>
       </dependency>      
+      <dependency>
+       	<groupId>com.ceph</groupId>
+        <artifactId>cephrgw</artifactId>
+        <version>1.0</version>
+	<scope>system</scope>
+	<systemPath>/usr/share/java/libcephrgw.jar</systemPath>
+      </dependency>      
       
       
       <dependency>
